@@ -1,0 +1,24 @@
+body{
+ background-color: #F0F0F0;
+}
+div{
+    background-color: #F9F9F9;
+    text-align: center;
+    font-size: 25px;
+}
+.div-st{
+    width: 89%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 110px;
+    padding-bottom: 305px;
+}
+p{
+    color: #FFD966;
+}
+.button-bt{
+    background-color:#FFD966 ;
+    border-color: #BCB5B5;
+    height: 65px;
+    font-size: 25px;
+}

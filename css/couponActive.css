@@ -1,0 +1,54 @@
+body{
+    background-color: #F0F0F0;
+}
+.div-bg{
+    background: url('../images/friends.png') ;
+    width: 63%;
+    height: auto;
+    padding: 20px 20px;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.div-one{
+    margin: 56px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.span-one{
+    color: red;
+    font-size: 50px;
+    text-align: center;
+}
+.bnt-st{
+    height: 68px;
+    font-size: 25px;
+    margin-bottom: 41px;
+}
+.div-tow{
+    margin-top:30px;
+    width: 89%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.span-st{
+    background-color: #FFD966;
+    color: white;
+    font-size: 25px;
+}
+.div-othre{
+    border:1px dashed #000000;
+    transform:rotate(9deg);
+    -ms-transform:rotate(9deg);
+    -moz-transform:rotate(9deg);
+    -webkit-transform:rotate(20deg);
+    -o-transform:rotate(9deg);
+    width:119px;
+    text-align: center;
+    font-size: 21px;
+    color: red;
+    padding: 15px;
+    float: right;
+}

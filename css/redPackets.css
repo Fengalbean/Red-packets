@@ -1,0 +1,97 @@
+body {
+    background: #F0F0F0;
+}
+.section-content {
+    width: 80%;
+    background: gainsboro;
+    height: 250px;
+    vertical-align: middle;
+    text-align: center;
+}
+.section-content p {
+    color: #ffffff;
+}
+.font-16 {
+    font-size: 18px;
+}
+.pd-20 {
+    padding: 40px 20px;
+}
+
+.div-bg {
+
+}
+.text-c-red {
+    color: red;
+    font-weight: bold;
+    /*font-size: 18px;*/
+}
+.text-s-16 {
+    font-size: 16px;
+}
+.text-center {
+    text-align: center;
+}
+.section-p {
+    font-size: 1.1em;
+    font-weight: bolder;
+    text-align: center;
+}
+
+.section-foot {
+    width: 99%;
+    /*background: gainsboro;*/
+    height: 210px;
+    vertical-align: middle;
+    text-align: center;
+    float: left;
+}
+.section-foot > .sec-left {
+    width: 27%;
+    background: gainsboro;
+    height: 180px;
+    padding: 40px 10px;
+    font-size: 16px;
+    float: left;
+}
+.section-foot > .sec-center {
+    width: 44%;
+    float: left;
+    padding: 15px 15px;
+    /*background: gainsboro;*/
+}
+.sec-center > p {
+    font-size: 16px;
+}
+.section-foot > .sec-right {
+    width: 27%;
+    background: gainsboro;
+    height: 180px;
+    padding: 40px 10px;
+    font-size: 16px;
+    float: left;
+}
+.self-button {
+    width: 55%;
+    height: 55px;
+    border-radius: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    background: #FFD966;
+    margin-bottom:20px;
+    text-align: center;
+    line-height: 55px;
+    color: #FFFFFF;
+    font-size: 1em;
+}
+.d-line {
+    width: 90%;
+    height:2px;
+    border-bottom: 2px dashed #CCCCCC;
+    padding: 20px 20px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+

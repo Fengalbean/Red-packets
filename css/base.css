@@ -1,0 +1,148 @@
+/*
+ *页面统一背景颜色：#F0F0F0
+ *容器统一背景颜色：#F9F9F9
+ *
+ */
+
+.font-16 {
+    font-size: 16px;
+}
+.text-center {
+    text-align: center;
+}
+
+.section-p {
+    font-size: 1.1em;
+    font-weight: bolder;
+    text-align: center;
+}
+
+/*拆包示意图*/
+.section-foot {
+    width: 99%;
+    /*background: gainsboro;*/
+    height: 210px;
+    vertical-align: middle;
+    text-align: center;
+    float: left;
+}
+.section-foot > .sec-left {
+    width: 27%;
+    background: gainsboro;
+    height: 180px;
+    padding: 40px 10px;
+    font-size: 16px;
+    float: left;
+}
+.section-foot > .sec-center {
+    width: 44%;
+    float: left;
+    padding: 15px 15px;
+    /*background: gainsboro;*/
+}
+.sec-center > p {
+    font-size: 16px;
+}
+
+.section-foot > .sec-right {
+    width: 27%;
+    background: gainsboro;
+    height: 180px;
+    padding: 40px 10px;
+    font-size: 16px;
+    float: left;
+}
+.self-button {
+    width: 55%;
+    height: 55px;
+    border-radius: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    background: #FFD966;
+    margin-bottom:20px;
+    text-align: center;
+    line-height: 55px;
+    color: #FFFFFF;
+    font-size: 1em;
+}
+/*虚线*/
+.d-line {
+    width: 90%;
+    height:2px;
+    border-bottom: 2px dashed #CCCCCC;
+    padding: 20px 20px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/*代金券列表*/
+.coupon-List {
+
+}
+.list-bg {
+    background: #F9F9F9;
+}
+.body-bg {
+    background:#F0F0F0;
+}
+.am-list li {
+    background:#F0F0F0;
+}
+
+.container-bg {/*容器背景颜色*/
+    background: #F9F9F9;
+}
+.list-container {
+    height: 50px;
+    width: 100%;
+    line-height: 50px;
+    /*background: #F0F0F0;*/
+}
+.list-container .header-img {
+    height: 50px;
+    width: 50px;
+    background: gainsboro;
+    float: left;
+}
+.list-container .text-container {
+    width: 150px;
+    height: 50px;
+    float: left;
+}
+.text-container .text-top {
+    width:100%;
+    height: 25px;
+    text-align: left;
+    line-height: 25px;
+    font-size: 14px;
+    padding-left:15px;
+ }
+.text-container .text-bottom {
+    width:100%;
+    height: 25px;
+    text-align: left;
+    line-height: 25px;
+    font-size: 14px;
+    padding-left:15px;
+}
+.list-container .use-img{
+    width: 60px;
+    height: 50px;
+    background: gainsboro;
+    float: right;
+    font-size: 16px;
+    text-align: center;
+}
+/*开始文字*/
+.start-p {
+    height: 55px;
+    width: 90%;
+    /*line-height: 55px;*/
+    text-align: center;
+    vertical-align: middle;
+    border: 2px dashed #FF7575;
+    margin-top:20px ;
+    margin-bottom: 20px;
+    font-size: 14px;
+}

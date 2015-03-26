@@ -1,0 +1,57 @@
+.div-bg {
+    background: url('../images/centernPage.png') ;
+    width: 89%;
+    height: auto;
+    padding: 20px 20px;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 20px;
+}
+.div-bgs{
+    position: relative;
+    display: table;
+    border-collapse: separate;
+    width: 100%;
+    margin: 0 auto;
+}
+.body{
+    background: #F9F9F9;
+}
+.exp{
+    font-size: 25px;
+    padding-top: 66px;
+}
+.font-text{
+    margin-top: 39px;
+}
+.input-style{
+    position: relative;
+    top: -53px;
+    float: right;
+    margin-right: 68px;
+    /*height: 60px;
+    width: 175px;
+    background: #ffa54a;
+    border-color: #ffa54a;
+    color: #ffffff;*/
+}
+.div-tow{
+    margin-top:30px;
+    width: 89%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.div-tow-p{
+    text-align: center;
+    font-size: 20px;
+}
+.div-three{
+    width: 80px;
+    background: #FFD966;
+    position: relative;
+    z-index: 999;
+}
+.span-st{
+    background-color: #FFD966;
+    color: white;
+}

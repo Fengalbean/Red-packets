@@ -1,0 +1,29 @@
+body {
+    background: #F0F0F0;
+}
+.boxes {
+    width: auto;
+}
+
+.boxes .box {
+    /*height: 80px;*/
+    color: #eee;
+    /*line-height: 80px;*/
+    text-align: center;
+    font-weight: bold;
+    transition: all .2s ease;
+    padding-top: 18px;
+    /*background: #E74C3C;*/
+    /*border: 5px solid #F9F9F9;*/
+}
+.box img {
+    width: 80%;
+    height: 80%;
+}
+
+
+.boxes .box:hover {
+    font-size: 250%;
+    transform: rotate(360deg);
+}
+
