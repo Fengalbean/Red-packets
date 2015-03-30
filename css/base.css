@@ -3,13 +3,12 @@
  *容器统一背景颜色：#F9F9F9
  *
  */
-
-.font-16 {
+/*.text-center {
+    width: 42%;
+    margin-left: auto;
+    margin-right: auto;
     font-size: 16px;
-}
-.text-center {
-    text-align: center;
-}
+}*/
 
 .section-p {
     font-size: 1.1em;
@@ -67,22 +66,23 @@
 }
 /*虚线*/
 .d-line {
-    width: 90%;
-    height:2px;
-    border-bottom: 2px dashed #CCCCCC;
-    padding: 20px 20px;
+    height:1px;
+    border-bottom: 1px solid #CCCCCC;
+    padding: 10px 20px;
     margin-bottom: 20px;
     margin-left: auto;
     margin-right: auto;
 }
-
+.font-16{
+    font-size: 16px;
+}
 /*代金券列表*/
 .coupon-List {
 
 }
-.list-bg {
+/*.list-bg {
     background: #F9F9F9;
-}
+}*/
 .body-bg {
     background:#F0F0F0;
 }
@@ -92,6 +92,7 @@
 
 .container-bg {/*容器背景颜色*/
     background: #F9F9F9;
+    padding: 20px 20px;
 }
 .list-container {
     height: 50px;
@@ -117,7 +118,7 @@
     line-height: 25px;
     font-size: 14px;
     padding-left:15px;
- }
+}
 .text-container .text-bottom {
     width:100%;
     height: 25px;
@@ -129,7 +130,6 @@
 .list-container .use-img{
     width: 60px;
     height: 50px;
-    background: gainsboro;
     float: right;
     font-size: 16px;
     text-align: center;
@@ -145,4 +145,36 @@
     margin-top:20px ;
     margin-bottom: 20px;
     font-size: 14px;
+}
+.am-modal-title {
+    border-bottom: 1px solid #222222;
+    vertical-align: middle;
+    text-align: center;
+    padding: 10px 10px;
+}
+.text-zy{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 22px;
+    font-size: 22px;
+    text-align: -webkit-left;
+}
+.div-date{
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 17px;
+    margin-bottom: 40px;
+    text-align: -webkit-auto;
+}
+.div-zh{
+    width: 89%; margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}
+.div-item{
+    background-color: #FFFFFF;
+    margin-top: 20px;
+}
+.pd-5 {
+    padding-top: 5px;
 }

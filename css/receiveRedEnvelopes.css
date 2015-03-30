@@ -1,11 +1,9 @@
 .div-bg {
-    background: url('../images/centernPage.png') ;
-    width: 89%;
+    background-color: #ffffff;
     height: auto;
     padding: 20px 20px;
     text-align: center;
     font-weight: bold;
-    margin-top: 20px;
 }
 .div-bgs{
     position: relative;
@@ -37,7 +35,7 @@
 }
 .div-tow{
     margin-top:30px;
-    width: 89%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -54,4 +52,17 @@
 .span-st{
     background-color: #FFD966;
     color: white;
+}
+.input-st{
+    border-right:none;background-color: #ebebeb;border: none;
+    height: 60px;
+    color: #222222;
+    font-size: 22px;
+}
+.span-st{
+    background-color: #cc3e3e;
+    color: white;
+    border: none;
+    width: 100px;
+    font-size: 22px;
 }

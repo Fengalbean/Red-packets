@@ -25,84 +25,94 @@
     <link rel="stylesheet" href="css/couponActive.css">
 </head>
 <body>
-<div class="start-p am-u-sm-centered" style="line-height: 55px;font-size: 16px;">您已领取了20元代金券</div>
 <!--在这里编写你的代码-->
-<div style="margin-left: auto;
-  margin-right: auto;
-  width: 69%;">
-    <div class="div-othre">
-        已领取完
-    </div>
-</div>
+
 <div class="div-bg">
-    <div class="div-one">
-        <font style="color: red;font-size: 50px">20</font>
-        <font style="color: white;font-size: 25px">元</font><br>
-        <font style="color: white;font-size: 25px">上门保养代金券</font>
+    <p style="line-height: 55px;font-size: 22px;text-align: center;margin-top: 20px;display: none">
+        您已领取了<font color="red">20元</font>代金券
+    </p>
+    <p style="line-height: 55px;font-size: 22px;text-align: center;margin-top: 20px">
+        40张代金券已被抢光了，预约保养有惊喜哦！
+    </p>
+    <div>
+        <img style="display: none;" src="images/red_envelopes_tow.png">
+        <img src="images/red_envelopes_not.png" style="margin-left: 20px">
+        <!--<img src="images/has_robbed.png" style="z-index: 999">-->
     </div>
-    <button type="button" class="am-btn am-btn-warning bnt-st">继续分享</button>
+    <div class="div-img">
+        <img style="display: none" src="images/make_appointment.png">
+        <img  src="images/make_appointment_not.png">
+    </div>
+    <!--<div class="am-input-group div-tow">
+        <input type="text" class="am-form-field" style="border-right:none;height: 80px;font-size: 20px" placeholder="请输入手机号码">
+        <span class="am-input-group-label span-st">立即领取</span>
+    </div>-->
+    <div class="text-zy font-16">
+        <font color="red">注：</font>本活动目前仅面向深圳车主。
+    </div>
+    <div class="d-line"></div>
+    <div class="text-center div-date">
+        <p>活动时间：2015年4月1日--2015年4月30日</p>
+        <p>保养时间 ：截止至2015年06月30日前</p>
+    </div>
 </div>
 
-<div class="am-input-group div-tow">
-    <input type="text" class="am-form-field" style="border-right:none;height: 80px;font-size: 20px" placeholder="请输入手机号码">
-    <span class="am-input-group-label span-st">立即领取</span>
+<div class="div-item">
+    <p style="text-align: center;font-size: 22px;padding-top: 20px">已有2为朋友领取了代金券</p>
+    <!--列表-->
+    <div class="coupon-List am-container">
+        <ul class="am-list am-list-static am-list-border">
+            <li style="background-color: #FFFFFF">
+                <div class="list-container">
+                    <div class="header-img">
+                        <img src="images/header.png" alt="" class="am-circle">
+                    </div>
+                    <div class="text-container">
+                        <div class="text-top">
+                            xxxx 2015年3月26日
+                        </div>
+                        <div class="text-bottom">
+                            20元代金券
+                        </div>
+                    </div>
+                    <div class="use-img"><div class="use-img"><img src="images/has_been_used.png" style="max-height: 50px;max-width: 50px;"></div></div>
+                </div>
+            </li>
+            <li style="background-color: #FFFFFF">
+                <div class="list-container">
+                    <div class="header-img">
+                        <img src="images/header.png" alt="" class="am-circle">
+                    </div>
+                    <div class="text-container">
+                        <div class="text-top">
+                            xxxx 2015年3月26日
+                        </div>
+                        <div class="text-bottom">
+                            20元代金券
+                        </div>
+                    </div>
+                    <div class="use-img"><div class="use-img"><img src="images/has_expired.png" style="max-height: 50px;max-width: 50px;"></div></div>
+                </div>
+            </li>
+            <li style="background-color: #FFFFFF">
+                <div class="list-container">
+                    <div class="header-img">
+                        <img src="images/header.png" alt="" class="am-circle">
+                    </div>
+                    <div class="text-container">
+                        <div class="text-top">
+                            xxxx 2015年3月26日
+                        </div>
+                        <div class="text-bottom">
+                            20元代金券
+                        </div>
+                    </div>
+                    <div class="use-img"><img src="images/has_been_used.png" style="max-height: 50px;max-width: 50px;"></div>
+                </div>
+            </li>
+        </ul>
+    </div>
 </div>
-<div class="d-line"></div>
-<p class="text-center font-16">活动时间：2015年4月1日-4月30日</p>
-<p class="text-center font-16">保养时间 ：截止至2015年6月30日前</p>
 
-<!--列表-->
-<div class="coupon-List am-container list-bg"   >
-    <ul class="am-list am-list-static am-list-border" style="padding: 15px 5px;">
-        <li style="background: #F0F0F0;">
-            <div class="list-container">
-                <div class="header-img">
-                    <img src="images/header.png" alt="" class="am-circle">
-                </div>
-                <div class="text-container">
-                    <div class="text-top">
-                        xxxx 2015年3月26日
-                    </div>
-                    <div class="text-bottom">
-                        20元代金券
-                    </div>
-                </div>
-                <div class="use-img">已使用</div>
-            </div>
-        </li>
-        <li>
-            <div class="list-container">
-                <div class="header-img">
-                    <img src="images/header.png" alt="" class="am-circle">
-                </div>
-                <div class="text-container">
-                    <div class="text-top">
-                        xxxx 2015年3月26日
-                    </div>
-                    <div class="text-bottom">
-                        20元代金券
-                    </div>
-                </div>
-                <div class="use-img">已使用</div>
-            </div>
-        </li>
-        <li>
-            <div class="list-container">
-                <div class="header-img">
-                    <img src="images/header.png" alt="" class="am-circle">
-                </div>
-                <div class="text-container">
-                    <div class="text-top">
-                        xxxx 2015年3月26日
-                    </div>
-                    <div class="text-bottom">
-                        20元代金券
-                    </div>
-                </div>
-                <div class="use-img">已使用</div>
-            </div>
-        </li>
-    </ul>
-</div>
 </body>
 </html>
