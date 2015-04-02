@@ -2,13 +2,14 @@
  * Created by Administrator on 2015/3/27.
  */
 $(function(){
-
     var BASE_PATH = "http://product.ikaibei.com";
-    function loadWxJsConfig(){
-        var img = BASE_PATH + "/maintenance/v2/activity/share.jpg";
+    var rootId = getUrlParam('rootId');
+    var floor = getUrlParam("floor");
+    function loadWxJsConfig(activeNum,rootId,floor){
+        var img = "http://hadlinkimg.b0.upaiyun.com/weixin/redShare.png";
         var title = "好友助力，开呗免费保养";
-        var content = "给老客户发福利啦！凡享用过开呗上门养车服务的用户可获得一张免费上门保养券和40张总价值800元的代金券分享给朋友，快来邀请车友领取吧！";
-        var link = document.location.href;
+        var content = "已有"+activeNum+"张代金券被使用，快来领取代金券，快来免费保养吧！";
+        var link = 'http://productdev.ikaibei.com/redEnvelopes/initShareFriends.html?rootId='+rootId+"&floor="+floor;
         var jqxhr = $.ajax({
             url : "http://120.24.229.78/app_dev_test/index.php?c=wechatapi&m=getJsConf",
             type: "POST",
@@ -19,7 +20,7 @@ $(function(){
             success: function(data) {
                 dataProtocolHandler(data, function(data,dataType,conf) {
                     console.log(data);
-                    if(!window.wx){
+                    if (!window.wx) {
                         return;
                     }
                     window.wx.config({
@@ -31,26 +32,28 @@ $(function(){
                         jsApiList: [ // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
                             'onMenuShareTimeline',
                             'onMenuShareAppMessage',
-                            'onMenuShareQQ',
-                            'onMenuShareWeibo'
+                            'wx.onMenuShareQQ',
+                            'wx.onMenuShareWeibo'
                         ]
                     });
                     // 展示分享按钮，并绑定分享事件
-                    wx.ready(function(){
-                        window.wx.onMenuShareTimeline({//分享到朋友圈
+
+                    wx.ready(function () {
+                        window.wx.onMenuShareTimeline({//分享至朋友圈
                             title: title, // 分享标题
                             link: link, // 分享链接
                             imgUrl: img, // 分享图标
                             success: function () {
                                 // 用户确认分享后执行的回调函数
-                                alert('yes');
+                                // alert('yes');
                             },
                             cancel: function () {
                                 // 用户取消分享后执行的回调函数
-                                alert('no');
+                                // alert('no');
                             }
                         });
-                        window.wx.onMenuShareAppMessage({//分享给朋友
+
+                        window.wx.onMenuShareAppMessage({//分享给好友
                             title: title, // 分享标题
                             desc: content, // 分享描述
                             link: link, // 分享链接
@@ -66,11 +69,11 @@ $(function(){
                                 // alert('no');
                             }
                         });
-                        wx.onMenuShareQQ({//分享到QQ
-                            title: "<?=$act['act_name']?>", // 分享标题
-                            desc: "<?=substr($act['act_stime'],0,10)?>\n<?=$act['act_place']?>", // 分享描述
-                            link: "http://www.brandhd.com/v/events/view/<?=$act['act_id']?>", // 分享链接
-                            imgUrl: "http://www.brandhd.com<?=$act['act_poster_small']?>", // 分享图标
+                        wx.onMenuShareQQ({
+                            title: title, // 分享标题
+                            desc: content, // 分享描述
+                            link: link, // 分享链接
+                            imgUrl: img, // 分享图标
                             success: function () {
                                 // 用户确认分享后执行的回调函数
                             },
@@ -78,11 +81,11 @@ $(function(){
                                 // 用户取消分享后执行的回调函数
                             }
                         });
-                        wx.onMenuShareWeibo({//分享到微博
-                            title: "<?=$act['act_name']?>", // 分享标题
-                            desc: "<?=substr($act['act_stime'],0,10)?>\n<?=$act['act_place']?>", // 分享描述
-                            link: "http://www.brandhd.com/v/events/view/<?=$act['act_id']?>", // 分享链接
-                            imgUrl: "http://www.brandhd.com<?=$act['act_poster_small']?>", // 分享图标
+                        wx.onMenuShareWeibo({
+                            title: title, // 分享标题
+                            desc: content, // 分享描述
+                            link: link, // 分享链接
+                            imgUrl: img, // 分享图标
                             success: function () {
                                 // 用户确认分享后执行的回调函数
                             },
@@ -91,26 +94,16 @@ $(function(){
                             }
                         });
                     });
-                });
+                })
             },
             error: function(data) {
-                hadAlert('网络出错了！','my-alert');
             }
         });
     }
-    loadWxJsConfig();
-    var id = getUrlParam('rootId');
-    var floor = getUrlParam("floor");
-    console.log(id);
-    console.log(floor);
-    if(id && floor){
-        return;
-    }
-    var param = {};
+    loadWxJsConfig(0,rootId,floor);
     var friendsHelp = $('#friendsHelp');
     friendsHelp.on('click',function(){
-        hadShare('share');
-//        window.open('redEnvelopesDetail.html?rootId='+id+'&'+'floor='+floor+"")
+        tipShare('tipShare');
     });
 
 });

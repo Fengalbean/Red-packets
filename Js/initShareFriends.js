@@ -1,22 +1,28 @@
 /**
- * Created by Administrator on 2015/3/28.
+ * Created by Administrator on 2015/3/31.
  */
 $(function(){
-    var bath = "http://120.24.208.201/hadlink/hadlink91_product/";
-    var url = "index.php?c=coupon&m=getRedEnvelopeCoupon";
     var rootId = getUrlParam('rootId');
     var floor = getUrlParam('floor');
+    var bath = "http://120.24.208.201/hadlink/hadlink91_product/";
+    var url = "index.php?c=coupon&m=getRedEnvelopeCoupon";
+    var urlCash = "index.php?c=coupon&m=addCashCoupon";
     var param = {};
-    if(rootId){
-        param = {
-            id:rootId
-        }
-    };
+    var phone = localStorage['phone'];
+
+    if(typeof phone != "undefined"){
+        param.phone = phone;
+    }
+
+    var newFloor = window.newFloor;
+    param.rootId = rootId;
+    param.floor = floor;
+    console.log(param);
     function loadWxJsConfig(activeNum){
         var img = "http://hadlinkimg.b0.upaiyun.com/weixin/redShare.png";
         var title = "好友助力，开呗免费保养";
         var content = "已有"+activeNum+"张代金券被使用，快来领取代金券，快来免费保养吧！";
-        var link = 'http://productdev.ikaibei.com/redEnvelopes/initShareFriends.html?rootId='+rootId+"&floor="+window.newFloor;
+        var link = 'http://productdev.ikaibei.com/redEnvelopes/initShareFriends.html?rootId='+rootId+"&floor="+newFloor;
 
         var jqxhr = $.ajax({
             // url: "BASE_PATH" +"/index.php?c=wechatapi&m=getJsConf",
@@ -106,27 +112,32 @@ $(function(){
             }
         });
     }
-    var ajaxSend = function(){
+    var ajaxSend = function(){//渲染列表
         $.ajax({
             type: "get",
             url: bath + url,
-            data: param,
+            data: {id:rootId,floor:floor},
             success: function (data) {
                 var flag = false;
                 if (data) {
                     var jsonData = JSON.parse(data);
+                    if(jsonData.free){
+                        window.newFloor = jsonData.free[0].floor;
+//                        localStorage['newFloor'] = newFloor;
+                    }
+
                     if(jsonData.code !== 0 ){
-                        hadAlert('网络原因，请求数据失败，请刷新页面或者检查网络！',"my-alert");
+                        hadAlert('错误！',"my-alert");
                         flag = true;
                     }
-                    if(flag) return;
                     console.log(jsonData);
+                    if(flag) return;
+
                     if (jsonData.data) {
                         var param = jsonData.data;
                         dealData(param);
                         if(param.free){
                             if(param.free[0]){
-                                Window.newFloor = param.free[0].floor;
                                 loadWxJsConfig(param.free[0].sum);
                             }
                         }
@@ -141,13 +152,69 @@ $(function(){
         });
     };
     var dealData = function(data){//渲染数据
-        var count = 0;
+        var red0 = '<img  src="images/0.png">';
+        var red1 = '<img  src="images/1.png">';
+        var red2 = '<img src="images/2.png">';
+        var red3 = '<img  src="images/3.png">';
+        var red4 = '<img  src="images/4.png">';
+        var red5 = '<img  src="images/5.png">';
+        var red6 = '<img src="images/6.png">';
+        var red7 = '<img  src="images/7.png">';
+        var red8 = '<img  src="images/8.png">';
+        var red9 = '<img  src="images/9.png">';
+        var red10 = '<img src="images/10.png">';
+        var redEnvelopes = $('#redEnvelopes');
+        var cashNum ;//领取代金券数量
         if(data.cash){
-            count = data.cash.length;
-            $('#num').text(count);
-            if(count > 0){
+            cashNum = data.cash.length;
+            if(cashNum>0){
+                $('#num').text(cashNum);//统计领取代金券的人数
                 $('#list').show();
+            }else{
+                $('#num').text(0);
             }
+        }else{
+            $('#num').text(0);
+        }
+        if(data.free){
+            if(data.free[0]){
+                var activeCash = data.free[0].sum;
+                $('#activeCash').text(activeCash);
+            }
+        }else{
+            $('#activeCash').text(0);
+        }
+
+        switch (data.free[0].sum ? data.free[0].sum :0){
+            case 1 :
+                redEnvelopes.append(red1);
+                break;
+            case 2 :
+                redEnvelopes.append(red2);
+                break;
+            case 3 :
+                redEnvelopes.append(red3);
+                break;
+            case 4 :
+                redEnvelopes.append(red4);
+                break;
+            case 5 :
+                redEnvelopes.append(red5);
+                break;
+            case 6 :
+                redEnvelopes.append(red6);
+                break;
+            case 7 :
+                redEnvelopes.append(red7);
+                break;
+            case 8 :
+                redEnvelopes.append(red8);
+                break;
+            case 9 :
+                redEnvelopes.append(red9);
+                break;
+            default :
+                redEnvelopes.append(red0);
         }
         var html = ' <li style="background-color: #FFFFFF">\
             <div class="list-container">\
@@ -169,10 +236,11 @@ $(function(){
         $("#cashList").empty();
         $.each(data.cash,function(k,v){//渲染列表
             var ret = html.replace("{%createTime%}",Datepattern(new Date(v.createTime *1000), "yyyy-MM-dd HH:mm"))
-                .replace(/\{%amount%\}/g, v.amount)
+                .replace(/\{%amount%\}/g, v.amount/100)
                 .replace(/{%status%}/g, v.status);
             $("#cashList").append(ret);
         });
+
         var img = $('.use-img');
         img.each(function(){//加载已使用、未使用代金券
             var that = $(this);
@@ -189,9 +257,51 @@ $(function(){
             }
         })
     };
-    ajaxSend();
-    var order = $('#order');
-    order.on('click',function(){
-       window.open(appointPage_test);
+
+    ajaxSend();//初始化加载数据
+    var helpFriends = $('#helpFriends');
+    helpFriends.on('click',function(){
+        var flag = false;
+        console.log(phone);
+        console.log(param);
+        if( typeof phone == "undefined"){
+            window.location.href = "friendsGetCash.html?rootId="+rootId+"&floor="+floor;
+            flag = true;
+        };
+        if(flag) return;
+        var _this = $(this);
+        var flag = false;
+        $.ajax({
+            type: "post",
+            url: bath + urlCash,
+            data: param,
+            dataType:'json',
+            success: function (data) {
+                console.log(data.code);
+                switch (data.code){
+                    case -1:
+                        hadAlert('参数不对，请重试！','my-alert');
+                        break;
+                    case -2:
+                        hadAlert('亲，您来晚了，免费券已经领取完了！','my-alert');
+                        break;
+                    case -3:
+                        hadAlert('亲，不能领取自己的代金券！','my-alert');
+                        break;
+                    case -4:
+                        window.location.href = "getCashSuccess.html?rootId="+rootId + "&floor=" + floor;
+                        break;
+                    case 0:
+//                        cookie.set('phone',phone,99999);
+                        localStorage['phone'] = phone;
+                        window.location.href = 'getCashSuccess.html?rootId='+rootId+"&floor="+newFloor;
+                        break;
+                }
+            },
+            error: function () {
+                hadAlert('网络原因，请重试！', 'my-alert');
+            }
+        });
     });
 });
+

@@ -15,7 +15,7 @@ body{
 .div-bg{
     background-color: #FFFFFF;
     height: auto;
-    padding: 20px 20px;
+    padding: 1px 20px;
     text-align: center;
     font-weight: bold;
     margin-left: auto;
@@ -63,4 +63,5 @@ cd{
     height: 60px;
     color: #222222;
     font-size: 22px;
+    font-weight: normal;
 }

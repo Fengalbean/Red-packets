@@ -23,12 +23,22 @@
     <link rel="stylesheet" href="css/amazeui.css">
     <link rel="stylesheet" href="css/receiveRedEnvelopes.css">
     <link rel="stylesheet" href="css/base.css">
-
+    <!--[if (gte IE 9)|!(IE)]><!-->
+    <script src="js/jquery.min.js"></script>
+    <!--<![endif]-->
+    <!--[if lte IE 8 ]>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="js/amazeui.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="js/story.min.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
 </head>
 <body class="body" id="bodyContainer">
-<!--在这里编写你的代码-->
 <div class="div-bg am-u-sm-centered ">
-    <img src="images/drawing.png" alt="红包活动图">
+    <img src="images/drawing.jpg" alt="红包活动图">
     <div class="am-input-group div-tow">
         <input type="text" id="phone" class="am-form-field input-st" placeholder="请输入手机号码">
         <span class="am-input-group-label span-st" id="draw">立即领取</span>
@@ -39,29 +49,8 @@
         <p>保养时间：截止至2015年06月30日</p>
     </div>
 </div>
-<div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
-    <div class="am-modal-dialog">
-        <!--<div class="am-modal-hd am-modal-title"><font color="#FFCC33">温馨提示</font>-->
-        <!--<i class="am-icon-close am-fr" ></i>-->
-        <!--<!--<img src="images/close.png" alt="">-->-->
-        <!--</div>-->
-        <div class="am-modal-bd am-modal-msg" style="padding: 35px 10px;" >
-            很抱歉，您尚未享受上门保养服务，预约后再来领取红包吧！
-        </div>
-        <div class="am-modal-footer">
-            <span class="am-modal-btn" data-am-modal-cancel>返回首页</span>
-            <span class="am-modal-btn" data-am-modal-confirm>立即预约</span>
-        </div>
-    </div>
-</div>
-<!--[if (gte IE 9)|!(IE)]><!-->
-<script src="js/jquery.min.js"></script>
-<!--<![endif]-->
-<!--[if lte IE 8 ]>
-<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
-<![endif]-->
-<script type="text/javascript" src="js/amazeui.js"></script>
-<script type="text/javascript" src="js/common.js"></script>
-<script type="text/javascript" src="js/index.js"></script>
+
+
+
 </body>
 </html>

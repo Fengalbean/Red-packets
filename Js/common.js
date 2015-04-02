@@ -1,12 +1,17 @@
 /**
  * Created by Administrator on 2015/3/28.
  */
+var appointPage_test = "http://productdev.ikaibei.com/maintenance/v2/activity/index.html";
+var appointPage_formal = "http://product.ikaibei.com/maintenance/v2/activity/index.html";
 var BASE_PATH = "http://product.ikaibei.com";
 var getUrlParam = function getUrlParam(name){//获取URL参数
     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
     var r = window.location.search.substr(1).match(reg);
     if(r!=null)return  unescape(r[2]); return null;
 };
+
+var cookie = $.AMUI.utils.cookie;//定义cookie
+var bath = "http://120.24.208.201/hadlink/hadlink91_product/";//定义基础url
 var Datepattern = function(d, fmt) {//日期格式化参数
     var o = {
         "M+": d.getMonth() + 1, //月份
@@ -41,7 +46,6 @@ var Datepattern = function(d, fmt) {//日期格式化参数
     return fmt;
 };
 
-
 /**
  * name : hadAlert提示警告弹出框
  * param@-msg:提示信息
@@ -68,6 +72,34 @@ function hadAlert(msg,selector){
         relatedTarget: this
     });
 };
+
+function hadConfirm(msg,selector,link,callback){
+    var tpl = '<div class="am-modal am-modal-confirm" tabindex="-1" id="'+selector +"\">"
+        +'<div class="am-modal-dialog">\
+                <div class="am-modal-hd pd-5" style="border-bottom: 1px solid gainsboro;">温馨提示\
+            <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>\
+        </div>\
+                <div class="am-modal-bd am-modal-msg" style="padding: 30px;">\
+                </div>\
+                <div class="am-modal-footer">\
+        <span class="am-modal-btn am-modal-btn" data-am-modal-confirm>立即预约</span>\
+                </div>\
+            </div>\
+            </div>';
+    $('body').find(selector).remove();
+    $('body').append(tpl);
+    $('#'+selector).find('.am-modal-msg').text(msg);
+    $('#'+selector).modal({
+        relatedTarget: this,
+        onConfirm: function() {
+            window.location.href = link;
+        },
+        onCancel: function() {
+            callback();
+        }
+    });
+
+}
 /**
  * name : hadShare 分享底部弹出框
  *
@@ -96,116 +128,7 @@ var hadShare = function(selector){
     });
 };
 
-//载入微信JS接口
-//function loadWxJsConfig(){
-//    var img = BASE_PATH + "/maintenance/v2/activity/share.jpg";
-//    var title = "好友助力，开呗免费保养";
-//    var content = "给老客户发福利啦！凡享用过开呗上门养车服务的用户可获得一张免费上门保养券和40张总价值800元的代金券分享给朋友，快来邀请车友领取吧！";
-//    var link = document.location.href;
-//    var jqxhr = $.ajax({
-//        url : "http://120.24.229.78/app_dev_test/index.php?c=wechatapi&m=getJsConf",
-//        type: "POST",
-//        data: {
-//            url: location.href.split('#')[0]
-//        },
-//        dataType: "json",
-//        success: function(data) {
-//            dataProtocolHandler(data, function(data,dataType,conf) {
-//                console.log(data);
-////                if(!window.wx){
-////                    return;
-////                }
-//                wx.config({
-//                    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-//                    appId: data['appId'], // 必填，公众号的唯一标识
-//                    timestamp: data['timestamp'], // 必填，生成签名的时间戳
-//                    nonceStr: data['nonceStr'], // 必填，生成签名的随机串
-//                    signature: data['signature'],// 必填，签名，见附录1
-//                    jsApiList: [ // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-//                        'onMenuShareTimeline',
-//                        'onMenuShareAppMessage',
-//                        'onMenuShareQQ',
-//                        'onMenuShareWeibo'
-//                    ]
-//                });
-//                // 展示分享按钮，并绑定分享事件
-//                wx.ready(function(){
-//                    wx.onMenuShareTimeline({//分享到朋友圈
-//                        title: title, // 分享标题
-//                        link: link, // 分享链接
-//                        imgUrl: img, // 分享图标
-//                        success: function () {
-//                            // 用户确认分享后执行的回调函数
-//                            alert('yes');
-//                        },
-//                        cancel: function () {
-//                            // 用户取消分享后执行的回调函数
-//                            alert('no');
-//                        }
-//                    });
-//                    wx.onMenuShareAppMessage({//分享给朋友
-//                        title: title, // 分享标题
-//                        desc: content, // 分享描述
-//                        link: link, // 分享链接
-//                        imgUrl: img, // 分享图标
-//                        type: 'link', // 分享类型,music、video或link，不填默认为link
-//                        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-//                        success: function () {
-//                            // 用户确认分享后执行的回调函数
-//                            // alert('yes');
-//                        },
-//                        cancel: function () {
-//                            // 用户取消分享后执行的回调函数
-//                            // alert('no');
-//                        }
-//                    });
-//                    wx.onMenuShareQQ({//分享到QQ
-//                        title: "<?=$act['act_name']?>", // 分享标题
-//                        desc: "<?=substr($act['act_stime'],0,10)?>\n<?=$act['act_place']?>", // 分享描述
-//                        link: "http://www.brandhd.com/v/events/view/<?=$act['act_id']?>", // 分享链接
-//                        imgUrl: "http://www.brandhd.com<?=$act['act_poster_small']?>", // 分享图标
-//                        success: function () {
-//                            // 用户确认分享后执行的回调函数
-//                        },
-//                        cancel: function () {
-//                            // 用户取消分享后执行的回调函数
-//                        }
-//                    });
-//                    wx.onMenuShareWeibo({//分享到微博
-//                        title: "<?=$act['act_name']?>", // 分享标题
-//                        desc: "<?=substr($act['act_stime'],0,10)?>\n<?=$act['act_place']?>", // 分享描述
-//                        link: "http://www.brandhd.com/v/events/view/<?=$act['act_id']?>", // 分享链接
-//                        imgUrl: "http://www.brandhd.com<?=$act['act_poster_small']?>", // 分享图标
-//                        success: function () {
-//                            // 用户确认分享后执行的回调函数
-//                        },
-//                        cancel: function () {
-//                            // 用户取消分享后执行的回调函数
-//                        }
-//                    });
-//                });
-//            });
-//        },
-//        error: function(data) {
-//            hadAlert('网络出错了！','my-alert');
-//        }
-//    });
-//}
-//function weixinShareTimeline(title,desc,link,imgUrl){
-//    WeixinJSBridge.invoke('shareTimeline',{
-//        "img_url":imgUrl,
-//        //"img_width":"640",
-//        //"img_height":"640",
-//        "link":link,
-//        "desc": desc,
-//        "title":title
-//    });
-//}
-//var share = $('body');//好友助力，开呗免费保养
-//share.on('click','#sendFriendsClass',function(){
-//    loadWxJsConfig();
-//    weixinShareTimeline('好友助力，开呗免费保养','开呗免费送红包','product.ikaibei.com','../images/drawing.png');
-//});
+
 
 function dataProtocolHandler(data, successCallback, failCallback) {
     if (data) {
@@ -223,4 +146,47 @@ function dataProtocolHandler(data, successCallback, failCallback) {
     } else {
         hadAlert("data is null",'showTips');
     }
+}
+//计时器
+var wait=10;
+function time(element) {
+    if (wait == 0) {
+        element.removeAttr("disabled");
+        element.css('background','#cc3e3e');
+        element.text("立即领取");
+        wait = 10;
+    } else {
+        element.prop("disabled",true);
+        element.text(wait + "秒后领取");
+        element.css('background',"#808080") ;
+        wait--;
+        setTimeout(function() {time(element) },1000)
+    }
+}
+
+function tipShare(selector){
+    var tpl = '<div style="top:6%;width: 300px;" class="am-modal am-modal-no-btn" tabindex="-1" id="'+selector+'" >'
+//        + '<div class="am-modal-hd">'
+//        + '<a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>'
+//        + '</div>'
+        + '<img src="images/arrow_tip.png" style="opacity: 0.7;width: 330px">'
+        + '</div>';
+
+    $('body').find(selector).remove();
+    $('body').append(tpl);
+    $('#'+selector).modal('open');
+
+}
+
+function hadLoading(option){
+    var tpl = '<div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1" id="my-modal-loading">\
+        <div class="am-modal-dialog">\
+        <div class="am-modal-hd">正在载入...</div>\
+        <div class="am-modal-bd">\
+        <span class="am-icon-spinner am-icon-spin"></span>\
+        </div>\
+    </div>\
+    </div>';
+    $('body').append(tpl);
+    $('#my-modal-loading').modal(option);
 }

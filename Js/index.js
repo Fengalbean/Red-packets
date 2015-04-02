@@ -1,29 +1,92 @@
 /**
  * Created by Administrator on 2015/3/27.
  */
+var openId = getUrlParam('openId');
+var rootId = localStorage['rootId'] ;
+var  floor = localStorage['floor'];
+var newPhone = localStorage['phone'];
+var complete = false;
+//$.ajax({
+//    type: "get",
+//    url: "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxcad192eff007ef0a&secret=bf0cbb98ee41332a2caa3367c863c854",
+//    data: '',
+//    success: function(data){
+//        alert('xxx');
+//        if(data){
+//            alert('xxx');
+//            var jsonData = JSON.parse(data);
+//            window.access_token = jsonData.access_token;
+//        }
+//    },
+//    complete:function(){
+//        complete = true;
+//    },
+//    error:function(){
+//        hadAlert('xsasdsdd！','my-alert');
+//    }
+//});
+//if(complete){
+//    $.ajax({
+//        type: "POST",
+//        url: "https://api.weixin.qq.com/cgi-bin/user/info",
+//        data: {access_token:window.access_token,openId:openId,lang:"zh_CN"},
+//        success: function(data){
+//            if(data){
+//                var jsonData = JSON.parse(data);
+//                alert(jsonData.nickname)
+//            }
+//        },
+//        error:function(){
+//            hadAlert('网络原因，请重试！','my-alert');
+//        }
+//    });
+//}
+
+$.ajax({
+    type: "POST",
+    url: bath + "index.php?c=coupon&m=addFreeCoupon",
+    data: {phone:newPhone,openId:openId},
+    success: function(data){
+        if(data){
+            var param = JSON.parse(data);
+            console.log(data);
+            switch (param.code){
+                case -1:
+//                    hadAlert('网络错误，请重试！','my-alert');
+                    break;
+                case -2:
+//                    hadAlert('亲，您来晚了，免费券已经领取完了！','my-alert');
+                    break;
+                case -3:
+
+//                    hadAlert('亲，该手机号码已经领取过免费券，感谢您关注开呗！','my-alert');
+                    window.location.href ="redEnvelopesDetail.html?rootId="+rootId + "&floor="+floor;
+                    break;
+                case -4:
+                    var msg = '很抱歉，您尚未享受上门保养服务，预约后再来领取红包吧！';
+                    hadConfirm(msg,'my-confirm',appointPage_test,function(){window.history.back()});
+                    break;
+                case 0:
+//                    time(_this);
+                    localStorage['rootId'] = rootId;
+                    localStorage['floor'] = newFloor;
+//                    localStorage['phone'] = phone;
+                    window.location.href = 'getCouponSuccess.html?rootId='+rootId+"&floor="+newFloor;
+                    break;
+            }
+//            window.location.href ="redEnvelopesDetail.html?rootId="+rootId + "&floor="+floor;
+        }
+    },
+    error:function(){
+        hadAlert('网络原因，请重试！','my-alert');
+    }
+});
 $(function(){
     var bath = "http://120.24.208.201/hadlink/hadlink91_product/";
     var bodyContainer = $('#bodyContainer');
     var param = "index.php?c=coupon&m=addFreeCoupon";
-//    var clickable=true;
-//    function waitOneMinute(){
-//        var second = 60;
-//        var c= setInterval(function(){
-//            if(second>=1){
-//                $("#getVerifyCode").html(second +"秒后重试");
-//                clickable = false;
-//                $("#getVerifyCode").addClass("disable");
-//                second--;
-//            }else{
-//                $("#getVerifyCode").html("获取验证码");
-//                clickable = true;
-//                $("#getVerifyCode").removeClass("disable");
-//                clearInterval(c);
-//            }
-//
-//        },1000);
-//    }
     bodyContainer.on('click','#draw',function(){
+        var _this = $(this);
         var phone = $('#phone').val();
         var flag = false;
         if(phone.length < 1){
@@ -41,17 +104,14 @@ $(function(){
             $.ajax({
                 type: "POST",
                 url: bath + param,
-                data: {phone:phone},
+                data: {phone:phone,openId:openId},
                 success: function(data){
                     if(data){
                         var param = JSON.parse(data);
                         if(param.data){
                             var rootId = param.data.id;
-                            var floor = param.data.floor;
-                            console.log(param.data.floor);
-                            console.log(param.data.id);
+                            var newFloor = param.data.floor;
                         }
-                        console.log(param.code);
                         switch (param.code){
                             case -1:
                                 hadAlert('网络错误，请重试！','my-alert');
@@ -64,25 +124,14 @@ $(function(){
                                 break;
                             case -4:
                                 var msg = '很抱歉，您尚未享受上门保养服务，预约后再来领取红包吧！';
-                                $('#my-confirm').find('.am-modal-msg').text(msg);
-                                $('#my-confirm').modal({
-                                    relatedTarget: this,
-                                    onConfirm: function() {
-                                        if(window.ENVIRONMENT =="dev") {
-                                            window.location.href = 'http://productdev.ikaibei.com/maintenance/v2/index.html';
-                                        }else{
-                                            window.location.href = 'http://product.ikaibei.com/maintenance/v2/index.html';
-                                        }
-                                    },
-                                    onCancel: function() {
-                                        window.history.back();
-                                    }
-                                });
+                                hadConfirm(msg,'my-confirm',appointPage_test,function(){window.history.back()});
                                 break;
                             case 0:
-                                //$.cookie(’name’, ‘value’, {expires: 7, path: ‘/’, domain: ‘jquery.com’, secure: true});
-                                $.cookie('rootId',rootId,{});
-                                window.location.href = 'getCouponSuccess.html?rootId='+rootId +"&"+"floor="+floor+"";
+                                time(_this);
+                                localStorage['rootId'] = rootId;
+                                localStorage['floor'] = newFloor;
+                                localStorage['phone'] = phone;
+                                window.location.href = 'getCouponSuccess.html?rootId='+rootId+"&floor="+newFloor;
                                 break;
                         }
                     }

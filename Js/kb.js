@@ -144,10 +144,10 @@ window.KB = (function(){
     };
     utils.getSession = function(){
         var session;
-        if($.urlParam("session")){
-            session= $.urlParam("session");
+        if(getUrlParam("session")){
+            session= getUrlParam("session");
         }else if($.cookie){
-            session= $.fn.cookie("session");
+            session= cookie.get("session");
         }
         // alert("session="+session);
         return session;

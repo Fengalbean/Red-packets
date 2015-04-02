@@ -3,11 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="代金券激活">
-    <meta name="keywords" content="代金券激活">
+    <meta name="description" content="开呗免费保养">
+    <meta name="keywords" content="开呗免费保养">
     <meta name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>代金券激活</title>
+    <title>好友助力，开呗免费保养</title>
     <!-- Set render engine for 360 browser -->
     <meta name="renderer" content="webkit">
     <!-- No Baidu Siteapp-->
@@ -26,19 +26,21 @@
 </head>
 <body>
 <!--在这里编写你的代码-->
-
-<div class="div-bg">
-    <p style="line-height: 55px;font-size: 22px;text-align: center;margin-top: 20px;">
+<div style="background: #ffffff">
+    <p style="line-height: 55px;font-size: 22px;text-align: center;padding-top: 10px;">
         您已领取了<span id="amount">20</span>元代金券
     </p>
     <!--<p style="line-height: 55px;font-size: 22px;text-align: center;margin-top: 20px">-->
-        <!--40张代金券已被抢光了，预约保养有惊喜哦！-->
+    <!--40张代金券已被抢光了，预约保养有惊喜哦！-->
     <!--</p>-->
-    <div>
+    <div style="text-align: center;background: #ffffff;  padding-left: 110px;padding-right: 110px;">
         <img  src="images/red_envelopes_tow.png">
         <img style="display: none;" src="images/red_envelopes_not.png" style="margin-left: 20px">
         <!--<img src="images/has_robbed.png" style="z-index: 999">-->
     </div>
+</div>
+<div class="div-bg">
+
     <div class="div-img">
         <img  src="images/make_appointment.png" id="order">
         <img style="display: none"  src="images/make_appointment_not.png">
@@ -57,7 +59,7 @@
     </div>
 </div>
 <!--列表-->
-<div class="div-item">
+<div class="div-item" id="list" style="display: none;">
     <p style="text-align: center;font-size: 22px;padding-top: 20px">已有<span id="num"></span>为朋友领取了代金券</p>
     <div class="coupon-List am-container">
         <ul class="am-list am-list-static am-list-border" id="cashList">
@@ -71,7 +73,9 @@
 <!--[if lte IE 8 ]>
 <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
 <![endif]-->
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script type="text/javascript" src="js/amazeui.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
 <script type="text/javascript" src="js/getCashSuccess.js"></script>
 </body>
 </html>

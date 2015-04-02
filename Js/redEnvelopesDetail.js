@@ -1,69 +1,112 @@
-/**
+﻿/**
  * Created by Administrator on 2015/3/27.
  */
 $(function(){
-    function getUrlParam(name){
-        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-
-        var r = window.location.search.substr(1).match(reg);
-
-        if(r!=null)return  unescape(r[2]); return null;
-    }//获取URL参数
-    var Datepattern = function(d, fmt) {
-        var o = {
-            "M+": d.getMonth() + 1, //月份
-            "d+": d.getDate(), //日
-            "h+": d.getHours() % 12 == 0 ? 12 : d.getHours() % 12, //小时
-            "H+": d.getHours(), //小时
-            "m+": d.getMinutes(), //分
-            "s+": d.getSeconds(), //秒
-            "q+": Math.floor((d.getMonth() + 3) / 3), //季度
-            "S": d.getMilliseconds() //毫秒
-        };
-        var week = {
-            "0": "/u65e5",
-            "1": "/u4e00",
-            "2": "/u4e8c",
-            "3": "/u4e09",
-            "4": "/u56db",
-            "5": "/u4e94",
-            "6": "/u516d"
-        };
-        if (/(y+)/.test(fmt)) {
-            fmt = fmt.replace(RegExp.$1, (d.getFullYear() + "").substr(4 - RegExp.$1.length));
-        }
-        if (/(E+)/.test(fmt)) {
-            fmt = fmt.replace(RegExp.$1, ((RegExp.$1.length > 1) ? (RegExp.$1.length > 2 ? "/u661f/u671f" : "/u5468") : "") + week[d.getDay() + ""]);
-        }
-        for (var k in o) {
-            if (new RegExp("(" + k + ")").test(fmt)) {
-                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-            }
-        }
-        return fmt;
-    };//日期格式化参数
-    var id = getUrlParam('roorId');
+    var rootId = getUrlParam('rootId');
     var floor = getUrlParam('floor');
-    var param;
-
-    var bath = "http://120.24.208.201/hadlink/hadlink91_product/";
+    var param = {};
     var url = "index.php?c=coupon&m=getRedEnvelopeCoupon";
-    function hadAlert(msg,element){
-        $('#'+element).find('.am-modal-msg').text(msg);
-        $('#'+element).modal({
-            relatedTarget: this
-        });
-    };
-    if(id && floor){
+    if(rootId && floor){
         param = {
-            id:55,
-            floor:'0-55-69'
+            id:rootId,
+            floor:floor
         }
     }
-    param = {
-        id:55,
-        floor:'0-55-69'
-    };
+    function loadWxJsConfig(activeNum,rootId,floor){
+        var img = "http://hadlinkimg.b0.upaiyun.com/weixin/redShare.png";
+        var title = "好友助力，开呗免费保养";
+        var content = "已有"+activeNum+"张代金券被使用，快来领取代金券，快来免费保养吧！";
+        var link = 'http://productdev.ikaibei.com/redEnvelopes/initShareFriends.html?rootId='+rootId+"&floor="+floor;
+        var jqxhr = $.ajax({
+            url : "http://120.24.229.78/app_dev_test/index.php?c=wechatapi&m=getJsConf",
+            type: "POST",
+            data: {
+                url: location.href.split('#')[0]
+            },
+            dataType: "json",
+            success: function(data) {
+                dataProtocolHandler(data, function(data,dataType,conf) {
+                    console.log(data);
+                    if (!window.wx) {
+                        return;
+                    }
+                    window.wx.config({
+                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId: data['appId'], // 必填，公众号的唯一标识
+                        timestamp: data['timestamp'], // 必填，生成签名的时间戳
+                        nonceStr: data['nonceStr'], // 必填，生成签名的随机串
+                        signature: data['signature'],// 必填，签名，见附录1
+                        jsApiList: [ // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                            'onMenuShareTimeline',
+                            'onMenuShareAppMessage',
+                            'wx.onMenuShareQQ',
+                            'wx.onMenuShareWeibo'
+                        ]
+                    });
+                    // 展示分享按钮，并绑定分享事件
+
+                    wx.ready(function () {
+                        window.wx.onMenuShareTimeline({//分享至朋友圈
+                            title: title, // 分享标题
+                            link: link, // 分享链接
+                            imgUrl: img, // 分享图标
+                            success: function () {
+                                // 用户确认分享后执行的回调函数
+                                // alert('yes');
+                            },
+                            cancel: function () {
+                                // 用户取消分享后执行的回调函数
+                                // alert('no');
+                            }
+                        });
+
+                        window.wx.onMenuShareAppMessage({//分享给好友
+                            title: title, // 分享标题
+                            desc: content, // 分享描述
+                            link: link, // 分享链接
+                            imgUrl: img, // 分享图标
+                            type: 'link', // 分享类型,music、video或link，不填默认为link
+                            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                            success: function () {
+                                // 用户确认分享后执行的回调函数
+                                // alert('yes');
+                            },
+                            cancel: function () {
+                                // 用户取消分享后执行的回调函数
+                                // alert('no');
+                            }
+                        });
+                        wx.onMenuShareQQ({
+                            title: title, // 分享标题
+                            desc: content, // 分享描述
+                            link: link, // 分享链接
+                            imgUrl: img, // 分享图标
+                            success: function () {
+                                // 用户确认分享后执行的回调函数
+                            },
+                            cancel: function () {
+                                // 用户取消分享后执行的回调函数
+                            }
+                        });
+                        wx.onMenuShareWeibo({
+                            title: title, // 分享标题
+                            desc: content, // 分享描述
+                            link: link, // 分享链接
+                            imgUrl: img, // 分享图标
+                            success: function () {
+                                // 用户确认分享后执行的回调函数
+                            },
+                            cancel: function () {
+                                // 用户取消分享后执行的回调函数
+                            }
+                        });
+                    });
+                })
+            },
+            error: function(data) {
+            }
+        });
+    }
     var ajaxSend = function(){
         $.ajax({
             type: "get",
@@ -77,8 +120,8 @@ $(function(){
                         hadAlert('网络原因，请求数据失败，请刷新页面或者检查网络！',"my-alert");
                         flag = true;
                     }
-                    if(flag) return;
                     console.log(jsonData);
+                    if(flag) return;
                     if (jsonData.data) {
                         var param = jsonData.data;
                         dealData(param);
@@ -90,6 +133,16 @@ $(function(){
             }
         });
     };
+    var preAppoint = $('#preAppoint');
+    preAppoint.on('click',function(){
+        var active = $(this).find('img').hasClass('active');
+        if(active){
+            window.location.href = appointPage_test + "?"+"rootId="+rootId +"&floor="+floor;
+        }else{
+            tipShare('tipShare');
+        }
+
+    });
     var dealData = function(data){//渲染数据
         var red0 = '<img  src="images/0.png">';
         var red1 = '<img  src="images/1.png">';
@@ -102,17 +155,32 @@ $(function(){
         var red8 = '<img  src="images/8.png">';
         var red9 = '<img  src="images/9.png">';
         var red10 = '<img src="images/10.png">';
+        var helptAppoint = ' <img style="margin-top: 20px" src="images/power_chart_bnt.png">">';
+        var activeAppoint= '<img style="margin-top: 20px;" src="images/make_appointment.png">';
         var redEnvelopes = $('#redEnvelopes');
-        var num;
+        var cashNum ;//领取代金券数量
+        if(data.cash){
+            cashNum = data.cash.length;
+            if(cashNum>0){
+                $('#num').text(cashNum);//统计领取代金券的人数
+                $('#list').show();
+            }else{
+                $('#num').text(0);
+            }
+        }else{
+            $('#num').text(0);
+        }
         if(data.free){
             if(data.free[0]){
-                num = data.free[0].sum;
-                $('#activeCash').text(num);//统计领取代金券的人数
-            }else{
-                $('#activeCash').text(0);//统计领取代金券的人数
+                var activeCash = data.free[0].sum;
+                $('#activeCash').text(activeCash);
+                loadWxJsConfig(activeCash,rootId,floor)
             }
+        }else{
+            $('#activeCash').text(0);
+            loadWxJsConfig(0,rootId,floor);
         }
-        switch (num){
+        switch (data.free[0].sum ? data.free[0].sum :0){
             case 1 :
                 redEnvelopes.append(red1);
                 break;
@@ -120,7 +188,7 @@ $(function(){
                 redEnvelopes.append(red2);
                 break;
             case 3 :
-                redEnvelopes.append(red3);
+                redEnvelopes.append(red9);
                 break;
             case 4 :
                 redEnvelopes.append(red4);
@@ -137,8 +205,10 @@ $(function(){
             case 8 :
                 redEnvelopes.append(red8);
                 break;
-            case 9 :
+            case '9' :
                 redEnvelopes.append(red9);
+                $('#preAppoint').empty();
+                $('#preAppoint').append(activeAppoint);
                 break;
             default :
                 redEnvelopes.append(red0);
@@ -168,12 +238,7 @@ $(function(){
                 .replace(/{%status%}/g, v.status);
             $("#cashList").append(ret);
         });
-        var count = 0;
-        if(data.cash){
-            count = data.cash.length;
-            console.log(count);
-            $('#num').text(count);
-        }
+
         var img = $('.use-img');
         img.each(function(){//加载已使用、未使用代金券
             var that = $(this);
