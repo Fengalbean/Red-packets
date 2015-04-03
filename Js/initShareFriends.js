@@ -4,28 +4,23 @@
 $(function(){
     var rootId = getUrlParam('rootId');
     var floor = getUrlParam('floor');
-    var bath = "http://120.24.208.201/hadlink/hadlink91_product/";
+    var openId = getUrlParam('openId');
     var url = "index.php?c=coupon&m=getRedEnvelopeCoupon";
     var urlCash = "index.php?c=coupon&m=addCashCoupon";
     var param = {};
-    var phone = localStorage['phone'];
-
+    var phone = localStorage['cashPhone'];
     if(typeof phone != "undefined"){
         param.phone = phone;
     }
-
     var newFloor = window.newFloor;
     param.rootId = rootId;
     param.floor = floor;
-    console.log(param);
     function loadWxJsConfig(activeNum){
         var img = "http://hadlinkimg.b0.upaiyun.com/weixin/redShare.png";
         var title = "好友助力，开呗免费保养";
         var content = "已有"+activeNum+"张代金券被使用，快来领取代金券，快来免费保养吧！";
-        var link = 'http://productdev.ikaibei.com/redEnvelopes/initShareFriends.html?rootId='+rootId+"&floor="+newFloor;
-
+        var link = 'http://productdev.ikaibei.com/redEnvelopes/initShareFriends.html?rootId='+rootId+"&floor="+window.newFloor+"&openId="+openId;
         var jqxhr = $.ajax({
-            // url: "BASE_PATH" +"/index.php?c=wechatapi&m=getJsConf",
             url : "http://120.24.229.78/app_dev_test/index.php?c=wechatapi&m=getJsConf",
             type: "POST",
             data: {
@@ -115,22 +110,23 @@ $(function(){
     var ajaxSend = function(){//渲染列表
         $.ajax({
             type: "get",
-            url: bath + url,
+            url: bath_test + url,
             data: {id:rootId,floor:floor},
             success: function (data) {
                 var flag = false;
+
                 if (data) {
                     var jsonData = JSON.parse(data);
-                    if(jsonData.free){
-                        window.newFloor = jsonData.free[0].floor;
-//                        localStorage['newFloor'] = newFloor;
+
+                    if(jsonData.data.free){
+                        window.newFloor = jsonData.data.free[0].floor;
                     }
 
                     if(jsonData.code !== 0 ){
                         hadAlert('错误！',"my-alert");
                         flag = true;
                     }
-                    console.log(jsonData);
+
                     if(flag) return;
 
                     if (jsonData.data) {
@@ -142,8 +138,9 @@ $(function(){
                             }
                         }
 
+                    }else{
+                        loadWxJsConfig(0);
                     }
-                    loadWxJsConfig(0);
                 }
             },
             error: function () {
@@ -257,27 +254,22 @@ $(function(){
             }
         })
     };
-
     ajaxSend();//初始化加载数据
     var helpFriends = $('#helpFriends');
     helpFriends.on('click',function(){
         var flag = false;
-        console.log(phone);
-        console.log(param);
         if( typeof phone == "undefined"){
-            window.location.href = "friendsGetCash.html?rootId="+rootId+"&floor="+floor;
+            window.location.href = "friendsGetCash.html?rootId="+rootId+"&floor="+floor+"&openId="+openId;
             flag = true;
         };
         if(flag) return;
         var _this = $(this);
-        var flag = false;
         $.ajax({
             type: "post",
-            url: bath + urlCash,
+            url: bath_test + urlCash,
             data: param,
             dataType:'json',
             success: function (data) {
-                console.log(data.code);
                 switch (data.code){
                     case -1:
                         hadAlert('参数不对，请重试！','my-alert');
@@ -289,12 +281,13 @@ $(function(){
                         hadAlert('亲，不能领取自己的代金券！','my-alert');
                         break;
                     case -4:
-                        window.location.href = "getCashSuccess.html?rootId="+rootId + "&floor=" + floor;
+                        window.location.href = "getCashSuccess.html?rootId="+rootId + "&floor=" + floor+"&openId="+openId;
                         break;
                     case 0:
-//                        cookie.set('phone',phone,99999);
-                        localStorage['phone'] = phone;
-                        window.location.href = 'getCashSuccess.html?rootId='+rootId+"&floor="+newFloor;
+                        if(localStorage['cashPhone']){
+                            localStorage['cashPhone'] = phone;
+                        }
+                        window.location.href = 'getCashSuccess.html?rootId='+rootId+"&floor="+newFloor+"&openId="+openId;
                         break;
                 }
             },

@@ -2,22 +2,21 @@
  * Created by Administrator on 2015/3/28.
  */
 $(function(){
-    var bath = "http://120.24.208.201/hadlink/hadlink91_product/";
     var url = "index.php?c=coupon&m=getRedEnvelopeCoupon";
     var rootId = getUrlParam('rootId');
     var floor = getUrlParam('floor');
+    var openId = getUrlParam('')
     var param = {};
     if(rootId){
         param = {
             id:rootId
         }
     };
-    function loadWxJsConfig(activeNum){
+    function loadWxJsConfig(activeNum,rootId,newFloor){
         var img = "http://hadlinkimg.b0.upaiyun.com/weixin/redShare.png";
         var title = "好友助力，开呗免费保养";
         var content = "已有"+activeNum+"张代金券被使用，快来领取代金券，快来免费保养吧！";
-        var link = 'http://productdev.ikaibei.com/redEnvelopes/initShareFriends.html?rootId='+rootId+"&floor="+window.newFloor;
-
+        var link = 'http://productdev.ikaibei.com/redEnvelopes/initShareFriends.html?rootId='+rootId+"&floor="+newFloor+"&openId="+openId;
         var jqxhr = $.ajax({
             // url: "BASE_PATH" +"/index.php?c=wechatapi&m=getJsConf",
             url : "http://120.24.229.78/app_dev_test/index.php?c=wechatapi&m=getJsConf",
@@ -109,7 +108,7 @@ $(function(){
     var ajaxSend = function(){
         $.ajax({
             type: "get",
-            url: bath + url,
+            url: bath_test + url,
             data: param,
             success: function (data) {
                 var flag = false;
@@ -120,19 +119,18 @@ $(function(){
                         flag = true;
                     }
                     if(flag) return;
-                    console.log(jsonData);
                     if (jsonData.data) {
                         var param = jsonData.data;
                         dealData(param);
                         if(param.free){
                             if(param.free[0]){
                                 Window.newFloor = param.free[0].floor;
-                                loadWxJsConfig(param.free[0].sum);
+                                loadWxJsConfig(param.free[0].sum,rootId,Window.newFloor);
                             }
                         }
 
                     }
-                    loadWxJsConfig(0);
+
                 }
             },
             error: function () {

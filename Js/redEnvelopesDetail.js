@@ -110,7 +110,7 @@ $(function(){
     var ajaxSend = function(){
         $.ajax({
             type: "get",
-            url: bath + url,
+            url: bath_test + url,
             data: param,
             success: function (data) {
                 var flag = false;
@@ -120,7 +120,6 @@ $(function(){
                         hadAlert('网络原因，请求数据失败，请刷新页面或者检查网络！',"my-alert");
                         flag = true;
                     }
-                    console.log(jsonData);
                     if(flag) return;
                     if (jsonData.data) {
                         var param = jsonData.data;
@@ -144,6 +143,7 @@ $(function(){
 
     });
     var dealData = function(data){//渲染数据
+        alert('xxxxx')
         var red0 = '<img  src="images/0.png">';
         var red1 = '<img  src="images/1.png">';
         var red2 = '<img src="images/2.png">';
@@ -170,7 +170,9 @@ $(function(){
         }else{
             $('#num').text(0);
         }
+
         if(data.free){
+
             if(data.free[0]){
                 var activeCash = data.free[0].sum;
                 $('#activeCash').text(activeCash);
@@ -243,7 +245,6 @@ $(function(){
         img.each(function(){//加载已使用、未使用代金券
             var that = $(this);
             var dataStatus = that.data('status');
-            console.log(typeof dataStatus);
             var use = '<img class="img-used" src="images/has_been_used.png" style="max-height: 50px;max-width: 50px;">';
             var unuse = '<img class="img-unused" src="images/not.png" style="max-height: 50px;max-width: 50px;" >';
             var expired = '<img class="img-unused" src="images/has_expired.png" style="max-height: 50px;max-width: 50px;" >';

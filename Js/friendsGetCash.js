@@ -3,17 +3,17 @@
  */
 
 $(function(){
-    var bath = "http://120.24.208.201/hadlink/hadlink91_product/";
     var url = "index.php?c=coupon&m=addCashCoupon";
-//    var wxOpenId = getUrlParam('openId');
+    var wxOpenId = getUrlParam('openId');
     var rootId = getUrlParam('rootId');
     var floor = getUrlParam('floor');
     var param = {};
     if(rootId && floor){
         param.rootId = rootId;
         param.floor = floor;
-//        param.wxOpenId = wxOpenId;
+        param.wxOpenId = wxOpenId;
     }
+    alert(wxOpenId);
     var bodyContainer = $('#bodyContainer');
     bodyContainer.on('click','#draw',function(){
         var _this = $(this);
@@ -34,13 +34,12 @@ $(function(){
             param.phone = phone;
             $.ajax({
                 type: "POST",
-                url: bath + url,
+                url: bath_test + url,
                 data: param,
                 success: function(data){
                     if(data){
                         var param = JSON.parse(data);
                         if(param.data){
-                            var rootId = param.data.id;
                             window.newFloor = param.data.floor;
                         }
                         console.log(param.code);
@@ -58,12 +57,11 @@ $(function(){
                                 window.location.href = "getCashSuccess.html?rootId="+rootId + "&floor=" + floor;
                                 break;
                             case 0:
-                                if(!localStorage['phone']){
-                                    localStorage['phone'] = phone;
+                                if(!localStorage['cashPhone']){
+                                    localStorage['cashPhone'] = phone;
                                 }
                                 localStorage['rootId'] = rootId;
                                 localStorage['floor'] = window.newFloor;
-                                alert(window.newFloor);
                                 window.location.href = 'getCashSuccess.html?rootId='+rootId+"&floor="+window.newFloor;
                                 break;
                         }

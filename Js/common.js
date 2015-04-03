@@ -1,9 +1,11 @@
 /**
  * Created by Administrator on 2015/3/28.
  */
-var appointPage_test = "http://productdev.ikaibei.com/maintenance/v2/activity/index.html";
-var appointPage_formal = "http://product.ikaibei.com/maintenance/v2/activity/index.html";
+var appointPage_test = "http://productdev.ikaibei.com/maintenance/v2/activity/index.html";//测试环境
+var appointPage_formal = "http://product.ikaibei.com/maintenance/v2/activity/index.html";//正式环境
 var BASE_PATH = "http://product.ikaibei.com";
+var bath_test = "http://120.24.208.201/hadlink/hadlink91_product/";//测试环境
+var bath_formal = "http://120.24.208.201/czs/product/";//正式环境
 var getUrlParam = function getUrlParam(name){//获取URL参数
     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
     var r = window.location.search.substr(1).match(reg);
@@ -11,7 +13,7 @@ var getUrlParam = function getUrlParam(name){//获取URL参数
 };
 
 var cookie = $.AMUI.utils.cookie;//定义cookie
-var bath = "http://120.24.208.201/hadlink/hadlink91_product/";//定义基础url
+
 var Datepattern = function(d, fmt) {//日期格式化参数
     var o = {
         "M+": d.getMonth() + 1, //月份
@@ -72,6 +74,13 @@ function hadAlert(msg,selector){
         relatedTarget: this
     });
 };
+function hadTip(msg){
+    var tpl = '<div class="am-modal am-modal-no-btn" tabindex="-1" id="hadTip">'
+            + '<div class="am-modal-dialog">' + '<div class="am-modal-bd" style="padding: 30px;margin: 0 20px;">' + msg+ '</div>'
+            + '</div>'+ '</div>';
+    $('body').append(tpl);
+    $('#hadTip').modal('open');
+}
 
 function hadConfirm(msg,selector,link,callback){
     var tpl = '<div class="am-modal am-modal-confirm" tabindex="-1" id="'+selector +"\">"

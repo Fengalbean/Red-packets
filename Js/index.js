@@ -3,86 +3,52 @@
  */
 var openId = getUrlParam('openId');
 var rootId = localStorage['rootId'] ;
-var  floor = localStorage['floor'];
-var newPhone = localStorage['phone'];
-var complete = false;
-//$.ajax({
-//    type: "get",
-//    url: "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxcad192eff007ef0a&secret=bf0cbb98ee41332a2caa3367c863c854",
-//    data: '',
-//    success: function(data){
-//        alert('xxx');
-//        if(data){
-//            alert('xxx');
-//            var jsonData = JSON.parse(data);
-//            window.access_token = jsonData.access_token;
-//        }
-//    },
-//    complete:function(){
-//        complete = true;
-//    },
-//    error:function(){
-//        hadAlert('xsasdsdd！','my-alert');
-//    }
-//});
-//if(complete){
-//    $.ajax({
-//        type: "POST",
-//        url: "https://api.weixin.qq.com/cgi-bin/user/info",
-//        data: {access_token:window.access_token,openId:openId,lang:"zh_CN"},
-//        success: function(data){
-//            if(data){
-//                var jsonData = JSON.parse(data);
-//                alert(jsonData.nickname)
-//            }
-//        },
-//        error:function(){
-//            hadAlert('网络原因，请重试！','my-alert');
-//        }
-//    });
-//}
-
-$.ajax({
-    type: "POST",
-    url: bath + "index.php?c=coupon&m=addFreeCoupon",
-    data: {phone:newPhone,openId:openId},
-    success: function(data){
-        if(data){
-            var param = JSON.parse(data);
-            console.log(data);
-            switch (param.code){
-                case -1:
-//                    hadAlert('网络错误，请重试！','my-alert');
-                    break;
-                case -2:
-//                    hadAlert('亲，您来晚了，免费券已经领取完了！','my-alert');
-                    break;
-                case -3:
-
-//                    hadAlert('亲，该手机号码已经领取过免费券，感谢您关注开呗！','my-alert');
-                    window.location.href ="redEnvelopesDetail.html?rootId="+rootId + "&floor="+floor;
-                    break;
-                case -4:
-                    var msg = '很抱歉，您尚未享受上门保养服务，预约后再来领取红包吧！';
-                    hadConfirm(msg,'my-confirm',appointPage_test,function(){window.history.back()});
-                    break;
-                case 0:
-//                    time(_this);
-                    localStorage['rootId'] = rootId;
-                    localStorage['floor'] = newFloor;
-//                    localStorage['phone'] = phone;
-                    window.location.href = 'getCouponSuccess.html?rootId='+rootId+"&floor="+newFloor;
-                    break;
+var floor = localStorage['floor'];
+var localPhone = localStorage['couponPhone'];
+var openIdAlbean = "o3eN7s2WNTaFToFOFFh8JBfGx72c";
+var ajaxSend = function(){
+    $.ajax({
+        type: "POST",
+        url: bath_test + "index.php?c=coupon&m=addFreeCoupon",
+        data: {phone:localPhone,wxOpenId:openId},
+        success: function(data){
+            if(data){
+                var param = JSON.parse(data);
+                switch (param.code){
+                    case -1:
+                        break;
+                    case -2:
+                        hadAlert('亲，您来晚了，免费券已经领取完了！','my-alert');
+                        window.location.href = appointPage_test;
+                        break;
+                    case -3:
+//                        hadTip('亲，您的手机号码已经领取过免费券，即将在1秒后进入开呗预约界面！');
+//                        hadAlert('亲，该手机号码已经领取过免费券，即将进入开呗预约界面！','my-alert');
+                        window.location.href ="redEnvelopesDetail.html?rootId="+rootId + "&floor="+floor;
+                        break;
+                    case -4:
+//                        window.location.href ="index.html";
+//                        var msg = '很抱歉，您尚未享受上门保养服务，预约后再来领取红包吧！';
+//                        hadConfirm(msg,'my-confirm',appointPage_test,function(){window.history.back()});
+                        break;
+                    case 0:
+                        window.location.href = 'getCouponSuccess.html?rootId='+rootId+"&floor="+floor;
+                        break;
+                }
             }
-//            window.location.href ="redEnvelopesDetail.html?rootId="+rootId + "&floor="+floor;
+        },
+        error:function(){
+            hadAlert('网络链接失败，请查看网络！','my-alert');
         }
-    },
-    error:function(){
-        hadAlert('网络原因，请重试！','my-alert');
-    }
-});
+    });
+};
+ajaxSend();
+//var linkAddr = encodeURI('http://www.hadlink.com');
+//
+//var addr ="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxcad192eff007ef0a&response_type=code&"
+// +"redirect_uri="+linkAddr+"&scope=snsapi_base#wechat_redirect";
+//window.location.href = addr;
 $(function(){
-    var bath = "http://120.24.208.201/hadlink/hadlink91_product/";
     var bodyContainer = $('#bodyContainer');
     var param = "index.php?c=coupon&m=addFreeCoupon";
     bodyContainer.on('click','#draw',function(){
@@ -103,9 +69,10 @@ $(function(){
         }else{
             $.ajax({
                 type: "POST",
-                url: bath + param,
-                data: {phone:phone,openId:openId},
+                url: bath_test + param,
+                data: {phone:phone,wxOpenId:openIdAlbean},
                 success: function(data){
+
                     if(data){
                         var param = JSON.parse(data);
                         if(param.data){
@@ -114,10 +81,13 @@ $(function(){
                         }
                         switch (param.code){
                             case -1:
-                                hadAlert('网络错误，请重试！','my-alert');
+                                hadAlert('网络错误，请重试1111！','my-alert');
                                 break;
                             case -2:
-                                hadAlert('亲，您来晚了，免费券已经领取完了！','my-alert');
+                                hadTip('亲，您的手机号码已经领取过免费券，即将在3秒后进入开呗预约界面！');
+                                setTimeout(function () {
+                                    window.location.href = appointPage_test;
+                                }, 3000);
                                 break;
                             case -3:
                                 hadAlert('亲，该手机号码已经领取过免费券，感谢您关注开呗！','my-alert');
@@ -130,15 +100,14 @@ $(function(){
                                 time(_this);
                                 localStorage['rootId'] = rootId;
                                 localStorage['floor'] = newFloor;
-                                localStorage['phone'] = phone;
+                                localStorage['couponPhone'] = phone;
                                 window.location.href = 'getCouponSuccess.html?rootId='+rootId+"&floor="+newFloor;
                                 break;
                         }
                     }
-
                 },
                 error:function(){
-                    hadAlert('网络原因，请重试！','my-alert');
+                    hadAlert('网络链接失败，请查看网络！','my-alert');
                 }
             });
         }

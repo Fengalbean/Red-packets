@@ -5,11 +5,16 @@ $(function(){
     var BASE_PATH = "http://product.ikaibei.com";
     var rootId = getUrlParam('rootId');
     var floor = getUrlParam("floor");
+    var openId = getUrlParam("openId");
     function loadWxJsConfig(activeNum,rootId,floor){
         var img = "http://hadlinkimg.b0.upaiyun.com/weixin/redShare.png";
         var title = "好友助力，开呗免费保养";
         var content = "已有"+activeNum+"张代金券被使用，快来领取代金券，快来免费保养吧！";
-        var link = 'http://productdev.ikaibei.com/redEnvelopes/initShareFriends.html?rootId='+rootId+"&floor="+floor;
+        var linkAddr = encodeURI('http://www.hadlink.com');
+
+        var link ="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxcad192eff007ef0a&response_type=code&"
+            +"redirect_uri="+linkAddr+"&scope=snsapi_base#wechat_redirect";
+//        var link = 'http://productdev.ikaibei.com/redEnvelopes/initShareFriends.html?rootId='+rootId+"&floor="+floor+"&openId="+openId;
         var jqxhr = $.ajax({
             url : "http://120.24.229.78/app_dev_test/index.php?c=wechatapi&m=getJsConf",
             type: "POST",
@@ -45,7 +50,7 @@ $(function(){
                             imgUrl: img, // 分享图标
                             success: function () {
                                 // 用户确认分享后执行的回调函数
-                                // alert('yes');
+                                window.location.href ="redEnvelopesDetail.html?rootId="+rootId + "&floor="+floor;
                             },
                             cancel: function () {
                                 // 用户取消分享后执行的回调函数
@@ -62,7 +67,7 @@ $(function(){
                             dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
                             success: function () {
                                 // 用户确认分享后执行的回调函数
-                                // alert('yes');
+                                window.location.href ="redEnvelopesDetail.html?rootId="+rootId + "&floor="+floor;
                             },
                             cancel: function () {
                                 // 用户取消分享后执行的回调函数
@@ -76,6 +81,7 @@ $(function(){
                             imgUrl: img, // 分享图标
                             success: function () {
                                 // 用户确认分享后执行的回调函数
+                                window.location.href ="redEnvelopesDetail.html?rootId="+rootId + "&floor="+floor;
                             },
                             cancel: function () {
                                 // 用户取消分享后执行的回调函数
@@ -88,6 +94,7 @@ $(function(){
                             imgUrl: img, // 分享图标
                             success: function () {
                                 // 用户确认分享后执行的回调函数
+                                window.location.href ="redEnvelopesDetail.html?rootId="+rootId + "&floor="+floor;
                             },
                             cancel: function () {
                                 // 用户取消分享后执行的回调函数
